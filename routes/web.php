@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Support\Facades\DB;
 use App\Exports\UsersExport;
+use App\Exports\PruebasExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\User;
 /*
@@ -20,27 +21,38 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
+
+//Usuarios
+Route::middleware(['auth'])->group(function(){
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/reporte', 'ReporteController@index')->name('reporte');
+Route::post('/reporte/search','ReporteController@generarReporte')->name('reporte.search');
 
-Route::get('/prueba', function () {
-    $asd = DB::connection('mysql2')->select('select * from maclist');
-    return response()->json($asd);
-});
+Route::post('users/store','UserController@store')->name('users.store')
+->middleware('permission:users.create');
 
-Route::get('/prueba2', function () {
-    // $asd = DB::connection('mysql')->select('select `destino`,`mac` from `radiusdb`.`radacct`, `asd`.`maclist` WHERE (`mac`=`username`)');
-    //dd(User::all());
-    // return Excel::download(new UsersExport, 'users.xlsx');
+Route::get('users','UserController@index')->name('users.index');
 
-    // return response()->json($asd);
-    //dd(new UsersExport);
-    // $headings = [
-    //     'id', 
-    //     'field1', 
-        
-    // ];
-    // //return (new UsersExport($headings))->download('_inventory.xlsx');
-    return Excel::download(new UsersExport, 'users.xlsx');
+Route::get('users/create','UserController@create')->name('users.create')
+->middleware('permission:users.create');
 
-    
+Route::put('users/{user}','UserController@update')->name('users.update')
+->middleware('permission:users.edit');
+
+Route::get('users/{user}','UserController@show')->name('users.show')
+->middleware('permission:users.show');
+
+Route::delete('users/{user}','UserController@destroy')->name('users.destroy')
+->middleware('permission:users.destroy');
+
+Route::get('users/{user}/edit','UserController@edit')->name('users.edit')
+->middleware('permission:users.edit');
+
+
+Route::get('users/{user}/editpassword','UserController@cambiarContraseñaVista')->name('users.editpassword');
+
+
+Route::put('users/{user}/edit/password','UserController@cambiarContraseña')->name('users.editpasswordrequest');
+
 });

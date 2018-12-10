@@ -7,12 +7,14 @@ use App\User;
 use Illuminate\Support\Facades\DB;
 
 
-
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
-class UsersExport implements FromCollection, WithHeadings, ShouldAutoSize
+class UsersExport implements FromCollection, WithHeadings, ShouldAutoSize, WithColumnFormatting
 {
 
     public function collection()
@@ -36,7 +38,7 @@ class UsersExport implements FromCollection, WithHeadings, ShouldAutoSize
                                                                      TIMESTAMPDIFF(MINUTE, `acctstarttime`, `acctstoptime`)  as uptime,
                                                                      null as typedevice,
                                                                      `destino`
-                                                                      from `radiusdb`.`radacct`, `asd`.`maclist` WHERE (`mac`=`username`)"));
+                                                                      from `radiusdb`.`radacct`, `radiusrepodb`.`maclist` WHERE (`mac`=`username`)"));
     }
 
     public function headings(): array
@@ -61,6 +63,14 @@ class UsersExport implements FromCollection, WithHeadings, ShouldAutoSize
             'Uptime (minutos)',
             'Tipo dispositivo (PC/Tablet/Smartphone)',
             'Primera URL de navegación',
+        ];
+    }
+
+    public function columnFormats(): array
+    {
+        return [
+            'h' => NumberFormat::FORMAT_DATE_DD-MM-YYYY,
+           
         ];
     }
 }
