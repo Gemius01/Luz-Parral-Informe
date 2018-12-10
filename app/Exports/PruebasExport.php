@@ -9,9 +9,9 @@ use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Illuminate\Support\Carbon;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-
-class PruebasExport implements FromView, WithColumnFormatting
+class PruebasExport implements FromView, WithColumnFormatting, ShouldAutoSize
 {
 
     protected $inicio;
@@ -49,10 +49,10 @@ class PruebasExport implements FromView, WithColumnFormatting
                 TIMESTAMPDIFF(MINUTE, `acctstarttime`, `acctstoptime`)  as uptime,
                 null as typedevice,
                 `destino`
-                from `radiusdb`.`radacct`, `asd`.`maclist` WHERE (`mac`=`username`) AND (CAST(acctstarttime AS DATE) between '".$fechaIn."' AND '".$fechaTer."')");
+                from `radiusdb`.`radacct`, `radiusrepodb`.`maclist` WHERE (`mac`=`username`) AND (CAST(acctstarttime AS DATE) between '".$fechaIn."' AND '".$fechaTer."')");
         
         return view('export', compact(['users']));
-    }
+    } 
 
     public function columnFormats(): array
     {
@@ -63,6 +63,8 @@ class PruebasExport implements FromView, WithColumnFormatting
            
         ];
     }
+
+    
 }
 
 

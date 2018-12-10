@@ -48,6 +48,9 @@ class UserController extends Controller
         ]);
 
         $user->roles()->sync(2);
+
+        return redirect()->route('users.index', $user->id)
+            ->with('info', 'Usuario guardado con exito');
         
     }
 

@@ -36,7 +36,6 @@
             <td>{{ $user->numserv }}</td>
             <td>{{ $user->acctstarttime }}</td>
             <td>{{ $user->horatstarttime }}</td>
-            <td>{{ $user->acctstarttime}} </td>
             <td>{{ $user->acctstoptime}} </td>
             <td>{{ $user->horaacctstoptime}} </td>
             <td>{{ $user->mac}} </td>
