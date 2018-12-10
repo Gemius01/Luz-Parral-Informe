@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UsuarioStoreRequest;
+use App\Http\Requests\UsuarioUpdateRequest;
+use App\Http\Requests\UsuarioContraseñaRequest;
 
 class UserController extends Controller
 {
@@ -35,7 +38,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UsuarioStoreRequest $request)
     {
         
         $user = User::create([
@@ -78,7 +81,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UsuarioUpdateRequest $request, User $user)
     {
         $user = User::find($id);
         $user->update($request->all());
@@ -104,7 +107,7 @@ class UserController extends Controller
         return view('usuarios.password', compact(['user']));
     } 
 
-    public function cambiarContraseña(Request $request, User $user)
+    public function cambiarContraseña(UsuarioContraseñaRequest $request, User $user)
     {
         $user->password = Hash::make($request['password']);
         $user->save();
