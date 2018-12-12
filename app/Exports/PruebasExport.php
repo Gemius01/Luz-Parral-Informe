@@ -30,6 +30,8 @@ class PruebasExport implements FromView, WithColumnFormatting, ShouldAutoSize
         //dd(''.$fechaIn. ' '. $fechaTer. '');
         //SELECT fecha from mi_tabla WHERE CAST(fecha AS DATE) between 'yyyy-mm-ss' AND 'yyyy-mm-ss'
         //$users = DB::connection('mysql')->select("select username as MAC from `radiusdb`.`radacct` WHERE CAST(acctstarttime AS DATE) between '".$fechaIn."' AND '".$fechaTer."'");
+        ini_set('memory_limit', '-1');
+        set_time_limit(0);
         $users= DB::connection('mysql')->select("select 96884450 as rutempresa,
                 4 as dv,
                 420 as sti,

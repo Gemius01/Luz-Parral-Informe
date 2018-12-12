@@ -6,7 +6,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">Fechas Reporte</div>
-                {{ Form::open(['route' => 'reporte.search']) }} 
+                {{ Form::open(['route' => 'reporte.search', 'id' => 'target']) }} 
                 <div class="card-body">
                 <div class="container">
                 <div class="form-group col-md-12">
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="form-group col-md-12" style="text-align:right;">
-                    <button type="submit" class="btn btn-primary mb-2"  style="margin-top:24px;"> <i class="fa fa-search" aria-hidden="true"></i> Generar Reporte</button>
+                    <button type="submit" class="btn btn-primary mb-2" onclick="this.disabled=true;this.form.submit();" style="margin-top:24px;" id="saveButton"> <i class="fa fa-search" aria-hidden="true"></i> Generar Reporte</button>
                     </div>
                     </div>
                     
@@ -38,6 +38,18 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="progressDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-body">
+	      	
+	        	<h4>Espere mientras se crea la publicación</h4>
+	        	<p>puede tardar unos segundos</p>
+				<img src="{{ URL::to('/') }}/images/lg.-text-entering-comment-loader.gif" width="100" height="100" border="0">
+	      </div>
+	    </div>
+	  </div>
+	</div>
 <script>
 $(document).ready(function(){
     $('.date').datepicker({
@@ -45,7 +57,11 @@ $(document).ready(function(){
         format: 'dd-mm-yyyy'
     });
 });
-
+$("#saveButton").click(function() {
+			setTimeout(function () {
+        $('#progressDialog').modal('show');
+    }, 1000);
+   	});
 function isValidDate(e)
 {
     // First check for the pattern
