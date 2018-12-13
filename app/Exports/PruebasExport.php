@@ -10,10 +10,13 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromCollection;
 
-class PruebasExport implements FromView, WithColumnFormatting, ShouldAutoSize
+class PruebasExport implements FromCollection
 {
-
+    use Exportable;
     protected $inicio;
     protected $termino;
     public function __construct($fecha_inicio, $fecha_termino)
@@ -23,28 +26,27 @@ class PruebasExport implements FromView, WithColumnFormatting, ShouldAutoSize
         $this->termino = $fecha_termino;
 
     }
-    public function view(): View
+    public function collection()
     {
         $fechaIn = Carbon::parse($this->inicio.'00:00:00');
         $fechaTer = Carbon::parse( $this->termino.'23:59:59');
-        ini_set('memory_limit', '-1');
         set_time_limit(0);
 
-        $users = DB::select(DB::raw("select * FROM (SELECT username, DATE_FORMAT(`acctstarttime`, '%d-%m-%Y') as acctstarttime,DATE_FORMAT(`acctstarttime`, '%H:%i:%s') as horatstarttime, DATE_FORMAT(`acctstoptime`, '%d-%m-%Y') as acctstoptime, DATE_FORMAT(`acctstoptime`, '%H:%i:%s') as horaacctstoptime,round(acctinputoctets/1000000, 1) as acctinputoctets, round(acctoutputoctets/1000000, 1) as acctoutputoctets,  round(acctsessiontime/60, 1) AS session FROM radiusdb.radacct WHERE acctstarttime BETWEEN '".$fechaIn."' AND '".$fechaTer."') AS fecha, (SELECT mac, SUBSTRING_INDEX(SUBSTRING_INDEX(ip,'.',-2),'.',1) as ipmac, destino, case  when system like '%Android%' then 'Smarthphone' when  system like '%Apple%' then 'Smarthphone' else 'PC' end as type FROM radiusrepodb.maclist GROUP BY mac) AS mac, (select id, zona, localidad, comuna, servicio from radiusrepodb.zonaswifi) as zonaswifi WHERE (fecha.username=mac.mac and zonaswifi.id = mac.ipmac) limit 30000"));
-
- 
-        return view('export', compact(['users']));
+        $users = DB::select(DB::raw("select * FROM (SELECT username, DATE_FORMAT(`acctstarttime`, '%d-%m-%Y') as acctstarttime,DATE_FORMAT(`acctstarttime`, '%H:%i:%s') as horatstarttime, DATE_FORMAT(`acctstoptime`, '%d-%m-%Y') as acctstoptime, DATE_FORMAT(`acctstoptime`, '%H:%i:%s') as horaacctstoptime,round(acctinputoctets/1000000, 1) as acctinputoctets, round(acctoutputoctets/1000000, 1) as acctoutputoctets,  round(acctsessiontime/60, 1) AS session FROM radiusdb.radacct WHERE acctstarttime BETWEEN '".$fechaIn."' AND '".$fechaTer."') AS fecha, (SELECT mac, SUBSTRING_INDEX(SUBSTRING_INDEX(ip,'.',-2),'.',1) as ipmac, destino, case  when system like '%Android%' then 'Smarthphone' when  system like '%Apple%' then 'Smarthphone' else 'PC' end as type FROM radiusrepodb.maclist GROUP BY mac) AS mac, (select id, zona, localidad, comuna, servicio from radiusrepodb.zonaswifi) as zonaswifi WHERE (fecha.username=mac.mac and zonaswifi.id = mac.ipmac)"));
+        return collect($users);
+        
+        //return view('export', compact(['users']));
     } 
 
-    public function columnFormats(): array
-    {
-        return [
-            'H' => 'dd-mmm-yy',
-            'J' => 'dd-mmm-yy',
-            'L' => 'dd-mmm-yy',
+    // public function columnFormats(): array
+    // {
+    //     return [
+    //         'H' => 'dd-mmm-yy',
+    //         'J' => 'dd-mmm-yy',
+    //         'L' => 'dd-mmm-yy',
            
-        ];
-    }
+    //     ];
+    // }
 
     
 }

@@ -38,13 +38,14 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="progressDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content">
-	      <div class="modal-body">
+	      <div class="modal-body" style="text-align:center;">
 	      	
-	        	<h4>Espere mientras se crea la publicación</h4>
-	        	<p>puede tardar unos segundos</p>
+	        	<h4>Espere mientras se crea el reporte</h4>
+	        	<p>puede tardar unos segundos, minutos u horas</p>
 				<img src="{{ URL::to('/') }}/images/lg.-text-entering-comment-loader.gif" width="100" height="100" border="0">
 	      </div>
 	    </div>
@@ -56,12 +57,13 @@ $(document).ready(function(){
         language: 'es',
         format: 'dd-mm-yyyy'
     });
-});
-$("#saveButton").click(function() {
+    $("#saveButton").click(function() {
 			setTimeout(function () {
         $('#progressDialog').modal('show');
-    }, 1000);
+    }, 500);
    	});
+});
+
 function isValidDate(e)
 {
     // First check for the pattern
