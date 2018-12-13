@@ -25,24 +25,24 @@
     <tbody>
     @foreach($users as $user)
         <tr>
-            <td>{{ $user->rutempresa }}</td>
-            <td>{{ $user->dv }}</td>
-            <td>{{ $user->sti }}</td>
-            <td>{{ $user->region }}</td>
-            <td>{{ $user->comuna }}</td>
-            <td>{{ $user->localidad }}</td>
-            <td>{{ $user->ap }}</td>
-            <td>{{ $user->iniserv }}</td>
-            <td>{{ $user->numserv }}</td>
+            <td>96884450</td> 
+            <td>4</td>
+            <td>420</td>
+            <td>7</td>
+            <td>{{ $user->comuna}}</td>
+            <td>{{ $user->localidad}}</td>
+            <td>{{ $user->zona}}</td>
+            <td>{{ $user->servicio}}</td>
+            <td>{{ $user->id}}</td>
             <td>{{ $user->acctstarttime }}</td>
             <td>{{ $user->horatstarttime }}</td>
             <td>{{ $user->acctstoptime}} </td>
-            <td>{{ $user->horaacctstoptime}} </td>
-            <td>{{ $user->mac}} </td>
-            <td>{{ $user->traficoup}} </td>
-            <td>{{ $user->traficodown}} </td>
-            <td>{{ $user->uptime }}</td>
-            <td>{{ $user->typedevice }}</td>
+            <td>{{ $user->horaacctstoptime}}</td>
+            <td>{{ $user->username }}</td>
+            <td>{{ $user->acctinputoctets }}</td>
+            <td>{{ $user->acctoutputoctets}}</td>
+            <td>{{ $user->session }}</td>
+            <td>{{ $user->type }}</td>
             <td>{{ $user->destino }}</td>
         </tr>
     @endforeach
