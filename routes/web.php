@@ -55,4 +55,15 @@ Route::get('users/{user}/editpassword','UserController@cambiarContraseñaVista')
 
 Route::put('users/{user}/edit/password','UserController@cambiarContraseña')->name('users.editpasswordrequest');
 
+
+//Datos
+
+Route::get('datos','DatosController@index')->name('datos.index');
+
+Route::put('datos/{dato}','DatosController@update')->name('datos.update')
+->middleware('permission:users.edit');
+
+Route::get('datos/{dato}/edit','DatosController@edit')->name('datos.edit')
+->middleware('permission:users.edit');
+
 });

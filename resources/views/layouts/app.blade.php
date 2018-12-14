@@ -47,6 +47,11 @@
                                 <a class="nav-link" href="{{ route('users.index') }}">Gestion Usuarios</a>
                             </li>
                         @endrole
+                        @role('root')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('datos.index') }}">Datos</a>
+                            </li>
+                        @endrole
                     </ul>
 
                     <!-- Right Side Of Navbar -->
