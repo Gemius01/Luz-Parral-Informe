@@ -18,6 +18,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" />
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @if(Session::has('download.in.the.next.request'))
+         <meta http-equiv="refresh" content="5;url={{ Session::get('download.in.the.next.request') }}">
+      @endif
     
 </head>
 <body>
@@ -61,11 +64,6 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -91,6 +89,13 @@
         </nav>
 
         <main class="py-4">
+        @if(session('info'))
+            <div class="container">
+                <div class="alert alert-success">
+                    {{ session('info') }}
+                </div>
+            </div>
+            @endif
             @yield('content')
         </main>
     </div>

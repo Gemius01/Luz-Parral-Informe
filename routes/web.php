@@ -66,4 +66,6 @@ Route::put('datos/{dato}','DatosController@update')->name('datos.update')
 Route::get('datos/{dato}/edit','DatosController@edit')->name('datos.edit')
 ->middleware('permission:users.edit');
 
+Route::get('download', 'ReporteController@download')->name('download');
+
 });

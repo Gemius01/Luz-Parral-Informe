@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="form-group col-md-12" style="text-align:right;">
-                    <button type="submit" class="btn btn-primary mb-2" onclick="this.disabled=true;this.form.submit();" style="margin-top:24px;" id="saveButton"> <i class="fa fa-search" aria-hidden="true"></i> Generar Reporte</button>
+                    <button type="submit" class="btn btn-primary mb-2" style="margin-top:24px;" id="saveButton"> <i class="fa fa-search" aria-hidden="true"></i> Generar Reporte</button>
                     </div>
                     </div>
                     
@@ -90,5 +90,7 @@ function isValidDate(e)
     // Check the range of the day
     return day > 0 && day <= monthLength[month - 1];
 };
+
+
 </script>
 @endsection
