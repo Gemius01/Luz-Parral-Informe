@@ -45,7 +45,7 @@
 	      <div class="modal-body" style="text-align:center;">
 	      	
 	        	<h4>Espere mientras se crea el reporte</h4>
-	        	<p>puede tardar unos segundos, minutos u horas</p>
+	        	<p>esto puede tardar espere porfavor</p>
 				<img src="{{ URL::to('/') }}/images/lg.-text-entering-comment-loader.gif" width="100" height="100" border="0">
 	      </div>
 	    </div>

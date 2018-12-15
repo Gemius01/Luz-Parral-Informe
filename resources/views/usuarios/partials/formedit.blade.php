@@ -8,7 +8,7 @@
 	@endif
 </div>
 <div class="form-group">
-	{{ Form::label('email', 'E-Mail') }}
+	{{ Form::label('email', 'Username') }}
 	{{ Form::text('email', null, ['class' => 'form-control', 'id' => 'email']) }}
 	@if($errors->has('email'))
 	@foreach($errors->get('email',":message") as $error)
