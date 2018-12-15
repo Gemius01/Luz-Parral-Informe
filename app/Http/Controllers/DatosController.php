@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Datos;
+use App\Http\Requests\DatosRequest;
 
 class DatosController extends Controller
 {
@@ -40,7 +41,7 @@ class DatosController extends Controller
     }
 
     
-    public function update(Request $request, $id)
+    public function update(DatosRequest $request, $id)
     {
         $datos = Datos::find($id);
         $datos->update($request->all());

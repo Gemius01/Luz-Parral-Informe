@@ -37,7 +37,12 @@ class ReporteController extends Controller
         $filePath = storage_path(). "/app/public/".$nombreArchivo.".xlsx";
         
         $users = DB::select(DB::raw("select * FROM (SELECT username, DATE_FORMAT(acctstarttime, '%d-%m-%Y') as acctstarttime,DATE_FORMAT(acctstarttime, '%H:%i:%s') as horatstarttime, DATE_FORMAT(acctstoptime, '%d-%m-%Y') as acctstoptime, DATE_FORMAT(acctstoptime, '%H:%i:%s') as horaacctstoptime, round(acctinputoctets/1000000, 1) as acctinputoctets, round(acctoutputoctets/1000000, 1) as acctoutputoctets,  round(acctsessiontime/60, 1) AS session FROM radiusdb.radacct WHERE acctstarttime BETWEEN '".$fechaIn."' AND '".$fechaTer."') AS fecha, (SELECT mac, SUBSTRING_INDEX(SUBSTRING_INDEX(ip,'.',-2),'.',1) as ipmac, CASE WHEN destino = '' THEN 'http://www.google.cl/' ELSE destino END AS destino, case  when system like '%Android%' then 'Smarthphone' when  system like '%Apple%' then 'Smarthphone' else 'PC' end as type FROM radiusrepodb.maclist GROUP BY mac) AS mac, (select id, zona, localidad, comuna, servicio from radiusrepodb.zonaswifi) as zonaswifi WHERE (fecha.username=mac.mac and zonaswifi.id = mac.ipmac)"));
-        
+        if($users==null){
+            return redirect()->route('home')
+            ->with('danger', '!Problemas¡ No se encontraron datos en las fechas indicadas');
+            //exit;
+        }
+        else{
             $writer = WriterFactory::create(Type::XLSX);
             
             $writer->openToFile($filePath);
@@ -59,6 +64,8 @@ class ReporteController extends Controller
             return redirect()->route('home')
             ->with('info', '!LISTO¡ Espere unos segundos para la descarga del archivo');
             //exit;
+        }
+            
             
             
     }
