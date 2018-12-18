@@ -15,7 +15,7 @@ class RootUserSeeder extends Seeder
         User::create([
         	'name' => 'Parral Root',
 	        'email' => 'luzparral',
-	        'password' => '$2y$10$wUG7gTKRnpQ2rB0Ehdu/qubJoiqWwnF1yjoQOMP.jea0h8wVgF1Xe', // iniaroot
+	        'password' => '$2y$10$2dTOU5z1WEQ2mkGKLvlTjOFjeU6OTeKn.RCIQmH/968YDR.DkGsdK', // luzparralroot
 	        //'remember_token' => str_random(10),
         ]);
 
