@@ -57,11 +57,17 @@ $(document).ready(function(){
         language: 'es',
         format: 'dd-mm-yyyy'
     });
-    $("#saveButton").click(function() {
-			setTimeout(function () {
-        $('#progressDialog').modal('show');
+    // $("#saveButton").click(function() {  
+	// 		setTimeout(function () {
+    //     $('#progressDialog').modal('show');
+    // }, 500); 
+   	// });
+    $( "#target" ).submit(function( event ) {
+        
+    setTimeout(function () {
+    $('#progressDialog').modal('show');
     }, 500);
-   	});
+    });
 });
 
 function isValidDate(e)
