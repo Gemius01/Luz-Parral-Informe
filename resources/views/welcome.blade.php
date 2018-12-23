@@ -61,6 +61,11 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            .resize img{
+                max-height:100%;
+                max-width:100%;
+            }
         </style>
     </head>
     <body>
@@ -80,8 +85,9 @@
             @endif
 
             <div class="content">
-                <div class="title m-b-md">
-                    Luz Parral - Informe Subtel
+                <div class="resize">
+                <img src="{{ URL::to('/') }}/luzparral.png"  border="0">
+
                 </div>
 
                 <div class="links">
