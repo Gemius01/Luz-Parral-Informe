@@ -36,7 +36,7 @@ class ReporteController extends Controller
         $nombreArchivo = "Reporte_Tráfico_".$fecha['mes']."_".$fecha['año']."";
         $filePath = storage_path(). "/app/public/".$nombreArchivo.".xlsx";
         
-        $users = DB::select(DB::raw("select * FROM (SELECT username, DATE_FORMAT(acctstarttime, '%d-%m-%Y') as acctstarttime,DATE_FORMAT(acctstarttime, '%H:%i:%s') as horatstarttime, DATE_FORMAT(acctstoptime, '%d-%m-%Y') as acctstoptime, DATE_FORMAT(acctstoptime, '%H:%i:%s') as horaacctstoptime, round(acctinputoctets/1000000, 1) as acctinputoctets, round(acctoutputoctets/1000000, 1) as acctoutputoctets,  round(acctsessiontime/60, 1) AS session FROM radiusdb.radacct WHERE acctstarttime BETWEEN '".$fechaIn."' AND '".$fechaTer."') AS fecha, (SELECT mac, SUBSTRING_INDEX(SUBSTRING_INDEX(ip,'.',-2),'.',1) as ipmac, CASE WHEN destino = '' THEN 'http://www.google.cl/' ELSE destino END AS destino, case  when system like '%Android%' then 'Smarthphone' when  system like '%Apple%' then 'Smarthphone' else 'PC' end as type FROM radiusrepodb.maclist GROUP BY mac) AS mac, (select id, zona, localidad, comuna, servicio from radiusrepodb.zonaswifi) as zonaswifi WHERE (fecha.username=mac.mac and zonaswifi.id = mac.ipmac)"));
+        $users = DB::select(DB::raw("select * FROM (SELECT calling_station_id,nas_port_id, DATE_FORMAT(from_time, '%d-%m-%Y') as fecha_inicio,DATE_FORMAT(from_time, '%H:%i:%s') as hora_inicio, DATE_FORMAT(till_time, '%d-%m-%Y') as fecha_termino, DATE_FORMAT(till_time, '%H:%i:%s') as hora_termino, round(download/1000000, 1) as descarga, round(upload/1000000, 1) as subida,  (hour(uptime ) * 60 + minute (uptime )) as sesion FROM hotspot.servidor WHERE from_time BETWEEN '".$fechaIn."' AND '".$fechaTer."') AS fecha, (SELECT mac, tipo, CASE WHEN web = '' THEN 'http://www.google.cl/' ELSE web END AS web FROM hotspot.webtipo GROUP BY mac) AS mac, (select id, zona, localidad, comuna, servicio from hotspot.zonaswifi) as zonaswifi WHERE (fecha.calling_station_id=mac.mac and zonaswifi.zona = fecha.nas_port_id)"));
         if($users==null){
             return redirect()->route('home')
             ->with('danger', '!Problemas¡ No se encontraron datos en las fechas indicadas');
@@ -53,7 +53,7 @@ class ReporteController extends Controller
             foreach($users as $user)
             {
 
-                $writer->addRow([$rut_empresa, $dv,$cod_empresa,$region,$user->comuna,$user->localidad,$user->zona, $user->servicio,$user->id,$user->acctstarttime,$user->horatstarttime, $user->acctstoptime,$user->horaacctstoptime, $user->username, $user->acctinputoctets, $user->acctoutputoctets, $user->session, $user->type, $user->destino]);
+                $writer->addRow([$rut_empresa, $dv,$cod_empresa,$region,$user->comuna,$user->localidad,$user->zona, $user->servicio,$user->id,$user->fecha_inicio,$user->hora_inicio, $user->fecha_termino,$user->hora_termino, $user->calling_station_id, $user->descarga, $user->subida, $user->sesion, $user->tipo, $user->web]);
            
             }
             

@@ -26,6 +26,7 @@ class HomeController extends Controller
         //ini_set('memory_limit', '1M');
         // $var = "".(memory_get_peak_usage(true)/1024/1024)." MiB\n\n";
         // return $var;
+        
         return view('home');
     }
 }
